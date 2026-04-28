@@ -61,5 +61,8 @@ export async function processPdf(
     }
   }
 
-  return await newPdf.save();
+  return {
+    pdfBytes: await newPdf.save(),
+    originalPageCount: pages.length,
+  };
 }
