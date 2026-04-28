@@ -1,6 +1,10 @@
 import { PDFDocument } from "pdf-lib";
 
-export async function processPdf(file: File, mode: string) {
+export async function processPdf(
+  file: File,
+  mode: string,
+  orientation: "portrait" | "landscape" = "portrait"
+) {
   const bytes = await file.arrayBuffer();
 
   const pdfDoc = await PDFDocument.load(bytes);
@@ -22,13 +26,24 @@ export async function processPdf(file: File, mode: string) {
     rows = 2;
   }
 
+  const A4_WIDTH = 595;
+  const A4_HEIGHT = 842;
+
+  const pageW = orientation === "landscape" ? A4_HEIGHT : A4_WIDTH;
+  const pageH = orientation === "landscape" ? A4_WIDTH : A4_HEIGHT;
+
+  if (mode === "1x2" && orientation === "landscape") {
+    cols = 2;
+    rows = 1;
+  }
+
   for (let i = 0; i < pages.length; i += perPage) {
-    const newPage = newPdf.addPage([595, 842]); // A4
+    const newPage = newPdf.addPage([pageW, pageH]); // A4
 
     const chunk = pages.slice(i, i + perPage);
 
-    const cellWidth = 595 / cols;
-    const cellHeight = 842 / rows;
+    const cellWidth = pageW / cols;
+    const cellHeight = pageH / rows;
 
     for (let j = 0; j < chunk.length; j++) {
       const p = chunk[j];
@@ -39,7 +54,7 @@ export async function processPdf(file: File, mode: string) {
 
       newPage.drawPage(embedded, {
         x: col * cellWidth,
-        y: 842 - (row + 1) * cellHeight,
+        y: pageH - (row + 1) * cellHeight,
         width: cellWidth,
         height: cellHeight,
       });
