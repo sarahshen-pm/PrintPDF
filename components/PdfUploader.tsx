@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { processPdf } from "@/lib/pdfProcessor";
 import Image from "next/image";
+import AdBanner from "@/components/AdBanner";
 
 export default function PdfUploader({ mode: initialMode, onClose }: { mode: string; onClose?: () => void }) {
   const [file, setFile] = useState<File | null>(null);
@@ -227,6 +228,9 @@ export default function PdfUploader({ mode: initialMode, onClose }: { mode: stri
               </div>
 
               <div className="mt-auto flex flex-col gap-2 pt-2">
+                {/* AdSense Placement: Above Editing Buttons */}
+                <AdBanner className="min-h-[50px] mb-1 bg-slate-100/50 rounded-xl border border-slate-200/50 p-1" />
+                
                 <button
                   onClick={handlePrint}
                   disabled={!previewUrl || isProcessing}

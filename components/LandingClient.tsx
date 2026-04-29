@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import PdfUploader from "@/components/PdfUploader";
+import AdBanner from "@/components/AdBanner";
 
 interface LandingClientProps {
   initialMode: string;
@@ -60,11 +61,16 @@ export default function LandingClient({ initialMode, title, subtitle, seoHeading
       </div>
 
       {seoHeading && seoText && (
-        <div className="max-w-3xl mx-auto px-6 pb-24 text-center">
+        <div className="max-w-3xl mx-auto px-6 pb-12 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-slate-800 mb-4">{seoHeading}</h2>
           <p className="text-base md:text-lg text-slate-600 leading-relaxed">{seoText}</p>
         </div>
       )}
+
+      {/* AdSense Placement: Bottom of Home Page */}
+      <div className="max-w-5xl mx-auto px-4 pb-12">
+        <AdBanner className="min-h-[90px] bg-white/50 rounded-2xl shadow-sm border border-slate-200/50 p-2" />
+      </div>
     </main>
   );
 }
