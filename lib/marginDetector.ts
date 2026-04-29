@@ -34,6 +34,7 @@ export async function detectMargins(file: File): Promise<MarginPercents[]> {
       canvas.height = viewport.height;
 
       // Render the page on the off-screen canvas
+      // @ts-expect-error - The pdfjs-dist type definition requires 'canvas' but 'canvasContext' is the actual property used in runtime
       await page.render({ canvasContext: ctx, viewport }).promise;
 
       const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
